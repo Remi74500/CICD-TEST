@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
 import warnings
-import pickle
 import matplotlib.pyplot as plt
 import time
 
@@ -11,7 +10,6 @@ warnings.filterwarnings('ignore')
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.model_selection import GridSearchCV, KFold, cross_val_score
-from sklearn.pipeline import Pipeline
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import recall_score
 
@@ -29,22 +27,21 @@ def prepare_and_normalise_dataset():
     total_rows = len(df.axes[0])
     total_cols = len(df.axes[1])
 
-    print(total_rows, total_cols)
-    #### 1. Séparation du jeu de données (Xtrain) et test (Xtest)
-    saved_df = df.copy()
+    #### 1. Séparation du jeu de données (Xtrain) et test (Xtest):
+
     df.drop(['CustomerId'], axis=1, inplace=True)  # Aucun impact sur la colonne 'Exited'
     X = df.iloc[:, :9].values  # = toutes les colonnes sans la dernière (Exited)
     Y = df.iloc[:, 9].values  # = seulement la dernière colonne
 
     Xtrain, Xtest, Ytrain, Ytest = train_test_split(X, Y, test_size=0.25, random_state=1)
 
-    SS = StandardScaler()
+    #### 2. Normalisation du jeu de données :
 
+    SS = StandardScaler()
     SS.fit(Xtrain)
 
     XNormTrain = SS.transform(Xtrain)
     XNormTest = SS.transform(Xtest)
-
 
     return XNormTrain, XNormTest, Ytrain, Ytest
 
@@ -91,7 +88,7 @@ if __name__ == '__main__':
                                  learning_rate=0.1)
     }
 
-    #run_classifier(Xtrain, Ytrain, Xtest, Ytest, clfs)
+    run_classifier(Xtrain, Ytrain, Xtest, Ytest, clfs)
 
 
 
