@@ -21,7 +21,6 @@ from sklearn.ensemble import RandomForestClassifier,BaggingClassifier,AdaBoostCl
 import xgboost as xgb
 
 
-
 def prepare_and_normalise_dataset():
     df = pd.read_csv('./Churn_Modelling.csv', sep=',', header=0)
     total_rows = len(df.axes[0])
